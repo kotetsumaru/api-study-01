@@ -25,6 +25,9 @@ async function changeData() {
 }
 
 function selectChange(covidLists) {
+  while (lists.firstChild) {
+    lists.removeChild(lists.firstChild);
+  }
   const selected = select.value;
   switch (selected) {
     case "currentpatients":
