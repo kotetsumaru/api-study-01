@@ -28,6 +28,7 @@ function selectChange(covidLists) {
   while (lists.firstChild) {
     lists.removeChild(lists.firstChild);
   }
+  lists.innerText = "コロナウイルス状況";
   const selected = select.value;
   switch (selected) {
     case "currentpatients":
