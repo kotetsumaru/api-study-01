@@ -45,3 +45,6 @@ async function covidData() {
 //イベント
 window.addEventListener("load", covidData);
 btn.addEventListener("click", covidData);
+
+//test
+console.log("test");
