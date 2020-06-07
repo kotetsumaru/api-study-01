@@ -1,7 +1,6 @@
 //Dom取得
 const lists = document.getElementById("lists");
 const select = document.getElementById("selector");
-const btn = document.getElementById("selectBtn");
 
 //メソッド
 
@@ -9,8 +8,24 @@ async function covidData() {
   const res = await fetch("https://www.stopcovid19.jp/data/covid19japan.json");
   const covidLists = await res.json();
   console.log(covidLists);
-  const selected = select.value;
 
+  covidLists.area.forEach(function (covidList) {
+    const list = document.createElement("dd");
+    list.innerText = `${covidList.name_jp} : 現在の感染者数 ${covidList.ncurrentpatients}人`;
+    lists.appendChild(list);
+  });
+}
+
+async function changeData() {
+  const res = await fetch("https://www.stopcovid19.jp/data/covid19japan.json");
+  const covidLists = await res.json();
+  console.log(covidLists);
+
+  selectChange(covidLists);
+}
+
+function selectChange(covidLists) {
+  const selected = select.value;
   switch (selected) {
     case "currentpatients":
       covidLists.area.forEach(function (covidList) {
@@ -41,7 +56,6 @@ async function covidData() {
       break;
   }
 }
-
 //イベント
 window.addEventListener("load", covidData);
-btn.addEventListener("click", covidData);
+select.addEventListener("change", changeData);
