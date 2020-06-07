@@ -3,32 +3,33 @@ const lists = document.getElementById("lists");
 const select = document.getElementById("selector");
 
 //メソッド
-
-async function covidData() {
+async function getData() {
   const res = await fetch("https://www.stopcovid19.jp/data/covid19japan.json");
   const covidLists = await res.json();
-  console.log(covidLists);
+  return covidLists;
+}
 
-  covidLists.area.forEach(function (covidList) {
-    const list = document.createElement("dd");
-    list.innerText = `${covidList.name_jp} : 現在の感染者数 ${covidList.ncurrentpatients}人`;
-    lists.appendChild(list);
-  });
+async function covidData() {
+  const covidLists = await getData();
+  console.log(covidLists);
+  selectData(covidLists);
 }
 
 async function changeData() {
-  const res = await fetch("https://www.stopcovid19.jp/data/covid19japan.json");
-  const covidLists = await res.json();
+  const covidLists = await getData();
   console.log(covidLists);
-
-  selectChange(covidLists);
+  removePrevList();
+  selectData(covidLists);
 }
 
-function selectChange(covidLists) {
+function removePrevList() {
   while (lists.firstChild) {
     lists.removeChild(lists.firstChild);
   }
   lists.innerText = "コロナウイルス状況";
+}
+
+function selectData(covidLists) {
   const selected = select.value;
   switch (selected) {
     case "currentpatients":
@@ -60,6 +61,7 @@ function selectChange(covidLists) {
       break;
   }
 }
+
 //イベント
 window.addEventListener("load", covidData);
 select.addEventListener("change", changeData);
